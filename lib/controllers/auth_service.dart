@@ -19,11 +19,11 @@ class AuthService {
 
       if (response.statusCode == 200) {
         // Parse the user data using UserModel
-        AuthResponse authResponse =
-            AuthResponse.fromJson(jsonDecode(response.body));
+        UserModel authResponse =
+            UserModel.fromJson(jsonDecode(response.body));
         return {
           "success": true,
-          "authResponse": authResponse,
+          "message": authResponse,
         };
       } else {
         // Failed login

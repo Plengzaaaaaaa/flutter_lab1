@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lab1/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 import 'HomePage.dart';
 import 'LoginPage.dart';
 import 'RegisterPage.dart';
@@ -10,12 +12,17 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      //ครอบด้วยProvider
+      create: (context) =>
+          UserProvider(), //กำลังจะสร้างProviderตัวใหม่ ให้ติดตามUserProvider
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: HomePage(),
       ),
-      home: HomePage(),
     );
   }
 }

@@ -3,7 +3,9 @@ import 'package:flutter_lab1/HomePage.dart';
 import 'package:flutter_lab1/models/user_model.dart';
 import 'package:flutter_lab1/pages/AdminPage.dart';
 import 'package:flutter_lab1/pages/UserPage.dart';
+import 'package:provider/provider.dart';
 import '../controllers/auth_service.dart';
+import 'providers/user_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,8 +16,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController usernameController =
+      TextEditingController(text: "P123456");
+  final TextEditingController passwordController =
+      TextEditingController(text: "123456");
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
@@ -26,14 +30,22 @@ class _LoginPageState extends State<LoginPage> {
 
       try {
         final result = await AuthService().login(username, password);
+
         if (result['success']) {
-          AuthResponse authResponse = result['authResponse'];
+          UserModel authResponse = result['message'];
+
+          // call onLogin () in Provider
+          if (!mounted) return;
+          Provider.of<UserProvider>(context,
+                  listen: false) //ไม่ให้ต้องรีบิ้วหน้าใหม่ตลอด
+              .onLogin(authResponse);
+
           print('Login successful. Welcome, ${authResponse.user.name}');
           print('Access Token: ${authResponse.accessToken}');
           print('Refresh Token: ${authResponse.refreshToken}');
           print('Role: ${authResponse.role}');
 
-          if (authResponse.role == "Admin") {
+          if (authResponse.role == "admin") {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => AdminPage()),
@@ -55,9 +67,6 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
