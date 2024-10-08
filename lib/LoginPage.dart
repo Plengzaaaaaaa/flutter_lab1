@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lab1/HomePage.dart';
 import 'package:flutter_lab1/models/user_model.dart';
-import 'package:flutter_lab1/pages/AdminPage.dart';
+import 'package:flutter_lab1/pages/admin/view/AdminPage.dart';
 import 'package:flutter_lab1/pages/UserPage.dart';
 import 'package:provider/provider.dart';
 import '../controllers/auth_service.dart';
@@ -45,17 +45,20 @@ class _LoginPageState extends State<LoginPage> {
           print('Refresh Token: ${authResponse.refreshToken}');
           print('Role: ${authResponse.role}');
 
-          if (authResponse.role == "admin") {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => AdminPage()),
-            );
-          } else {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => UserPage()),
-            );
-          }
+       if (authResponse.role == "admin") {
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(builder: (context) => AdminPage()),
+    (route) => false, // Removes all previous routes
+  );
+} else {
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(builder: (context) => UserPage()),
+    (route) => false, // Removes all previous routes
+  );
+}
+
         } else {
           // หากล็อกอินไม่สำเร็จ แสดงข้อความแจ้งเตือน
           ScaffoldMessenger.of(context).showSnackBar(

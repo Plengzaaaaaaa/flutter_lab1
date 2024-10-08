@@ -25,5 +25,8 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateAccessToken() {}
+  void updateAccessToken(String newtoken) {
+    _accessToken = newtoken;
+    notifyListeners();
+  }
 }

@@ -10,12 +10,14 @@ ProductModel productModelFromJson(String str) =>
 String productModelToJson(ProductModel data) => json.encode(data.toJson());
 
 class ProductModel {
+  String? id;
   String productName;
   String productType;
-  String price;
+  int price;
   String unit;
 
   ProductModel({
+    this.id,
     required this.productName,
     required this.productType,
     required this.price,
@@ -23,6 +25,7 @@ class ProductModel {
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+        id: json["_id"],
         productName: json["product_name"],
         productType: json["product_type"],
         price: json["price"],
@@ -30,6 +33,7 @@ class ProductModel {
       );
 
   Map<String, dynamic> toJson() => {
+        "_id": id,
         "product_name": productName,
         "product_type": productType,
         "price": price,
