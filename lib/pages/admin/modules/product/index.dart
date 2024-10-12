@@ -85,37 +85,41 @@ class _ProductListState extends State<ProductList> {
                                 final result = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ProductDetailPage(product: product),
+                                    builder: (context) =>
+                                        ProductDetailPage(product: product),
                                   ),
                                 );
                                 if (result == true) {
                                   setState(() {
-                                    futureProducts = _controller.fetchProducts(widget.token);
+                                    futureProducts =
+                                        _controller.fetchProducts(widget.token);
                                   });
                                 }
                               },
                               child: const Text('View Details'),
                             ),
-                            ElevatedButton(
+                            ElevatedButton.icon(
                               onPressed: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => EditProductPage(product: product),
+                                    builder: (context) =>
+                                        EditProductPage(product: product),
                                   ),
                                 );
                               },
-                              child: const Text('Edit'),
+                              icon: const Icon(Icons.edit), // ไอคอนปากกา
+                              label: const Text('Edit'),
                             ),
-                            ElevatedButton(
+                            ElevatedButton.icon(
                               onPressed: () {
                                 _showDeleteDialog(product);
-                                
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
                               ),
-                              child: const Text('Delete'),
+                              icon: const Icon(Icons.delete), // ไอคอนถังขยะ
+                              label: const Text('Delete'),
                             ),
                           ],
                         ),
@@ -143,7 +147,8 @@ class _ProductListState extends State<ProductList> {
       builder: (context) {
         return AlertDialog(
           title: const Text('Delete Product'),
-          content: Text('Are you sure you want to delete ${product.productName}?'),
+          content:
+              Text('Are you sure you want to delete ${product.productName}?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
