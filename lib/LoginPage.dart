@@ -26,9 +26,9 @@ class _LoginPageState extends State<LoginPage> {
       final username = usernameController.text;
       final password = passwordController.text;
       // คุณสามารถทำสิ่งต่าง ๆ กับข้อมูลที่ได้รับ เช่น การตรวจสอบข้อมูล
-      print('Username: $username, Password: $password');
 
       try {
+        print('Username: $username, Password: $password');
         final result = await AuthService().login(username, password);
 
         if (result['success']) {
@@ -43,22 +43,21 @@ class _LoginPageState extends State<LoginPage> {
           print('Login successful. Welcome, ${authResponse.user.name}');
           print('Access Token: ${authResponse.accessToken}');
           print('Refresh Token: ${authResponse.refreshToken}');
-          print('Role: ${authResponse.role}');
+          print('Role: ${authResponse.user.role}');
 
-       if (authResponse.role == "admin") {
-  Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(builder: (context) => AdminPage()),
-    (route) => false, // Removes all previous routes
-  );
-} else {
-  Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(builder: (context) => UserPage()),
-    (route) => false, // Removes all previous routes
-  );
-}
-
+          if (authResponse.user.role == "admin") {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => AdminPage()),
+              (route) => false, // Removes all previous routes
+            );
+          } else {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => UserPage()),
+              (route) => false, // Removes all previous routes
+            );
+          }
         } else {
           // หากล็อกอินไม่สำเร็จ แสดงข้อความแจ้งเตือน
           ScaffoldMessenger.of(context).showSnackBar(

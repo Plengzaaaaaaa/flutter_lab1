@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lab1/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+
 class UserInfoTab extends StatelessWidget {
   const UserInfoTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-  
-
     return Column(
       children: [
         const Text("Access Token"),

@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 
 class AuthService {
   Future<Map<String, dynamic>> login(String username, String password) async {
+    print(username);
+    print(password);
     try {
       final response = await http.post(
         Uri.parse("$apiURL/api/auth/login"),
@@ -16,11 +18,11 @@ class AuthService {
           "password": password,
         }),
       );
+      print(response.statusCode);
 
       if (response.statusCode == 200) {
         // Parse the user data using UserModel
-        UserModel authResponse =
-            UserModel.fromJson(jsonDecode(response.body));
+        UserModel authResponse = UserModel.fromJson(jsonDecode(response.body));
         return {
           "success": true,
           "message": authResponse,
