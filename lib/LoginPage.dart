@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lab1/HomePage.dart';
 import 'package:flutter_lab1/models/user_model.dart';
 import 'package:flutter_lab1/pages/admin/view/AdminPage.dart';
 import 'package:flutter_lab1/pages/UserPage.dart';
@@ -25,19 +24,16 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState!.validate()) {
       final username = usernameController.text;
       final password = passwordController.text;
-      // คุณสามารถทำสิ่งต่าง ๆ กับข้อมูลที่ได้รับ เช่น การตรวจสอบข้อมูล
+      print('Username: $username, Password: $password');
 
       try {
-        print('Username: $username, Password: $password');
         final result = await AuthService().login(username, password);
 
         if (result['success']) {
           UserModel authResponse = result['message'];
 
-          // call onLogin () in Provider
           if (!mounted) return;
-          Provider.of<UserProvider>(context,
-                  listen: false) //ไม่ให้ต้องรีบิ้วหน้าใหม่ตลอด
+          Provider.of<UserProvider>(context, listen: false)
               .onLogin(authResponse);
 
           print('Login successful. Welcome, ${authResponse.user.name}');
@@ -49,17 +45,16 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => AdminPage()),
-              (route) => false, // Removes all previous routes
+              (route) => false,
             );
           } else {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => UserPage()),
-              (route) => false, // Removes all previous routes
+              (route) => false,
             );
           }
         } else {
-          // หากล็อกอินไม่สำเร็จ แสดงข้อความแจ้งเตือน
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Login failed. Please try again.')),
           );
@@ -74,50 +69,90 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login Page'),
-        backgroundColor: Colors.yellow, // ตั้งค่าสีเหลืองให้กับ AppBar
+        title: Text(
+          'Login Page',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.yellow[700], // เปลี่ยนสีเป็นสีเหลือง
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: usernameController,
-                decoration: InputDecoration(labelText: 'Username'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your username';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _login,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.yellow, // ตั้งค่าสีเหลืองให้กับปุ่ม
-                  textStyle: TextStyle(
-                      color: Colors.black), // ตั้งค่าสีตัวอักษรเป็นสีดำ
+      body: Center(
+        // Center the form on the screen
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment:
+                  MainAxisAlignment.center, // Center the Column contents
+              children: [
+                TextFormField(
+                  controller: usernameController,
+                  decoration: InputDecoration(
+                    labelText: 'Username',
+                    labelStyle: TextStyle(
+                        color: Colors.yellow[800]), // เปลี่ยนสีเป็นสีเหลือง
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Colors.yellow), // เปลี่ยนสีเป็นสีเหลือง
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Colors.yellowAccent), // เปลี่ยนสีเป็นสีเหลือง
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your username';
+                    }
+                    return null;
+                  },
                 ),
-                child: Text('Login'),
-              ),
-            ],
+                SizedBox(height: 16),
+                TextFormField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: TextStyle(
+                        color: Colors.yellow[800]), // เปลี่ยนสีเป็นสีเหลือง
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Colors.yellow), // เปลี่ยนสีเป็นสีเหลือง
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Colors.yellowAccent), // เปลี่ยนสีเป็นสีเหลือง
+                    ),
+                  ),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _login,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Colors.yellow[600], // เปลี่ยนสีเป็นสีเหลือง
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 50,
+                      vertical: 15,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text('Login', style: TextStyle(color: Colors.white)),
+                ),
+              ],
+            ),
           ),
         ),
       ),
+      backgroundColor: Colors.yellow[50], // เปลี่ยนสีพื้นหลังเป็นสีเหลือง
     );
   }
 }

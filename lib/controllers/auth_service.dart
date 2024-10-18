@@ -14,10 +14,11 @@ class AuthService {
           "Content-Type": "application/json",
         },
         body: jsonEncode({
-          "user_name": username,
+          "username": username,
           "password": password,
         }),
       );
+
       print(response.statusCode);
 
       if (response.statusCode == 200) {

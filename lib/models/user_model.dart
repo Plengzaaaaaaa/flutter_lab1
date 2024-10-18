@@ -20,9 +20,10 @@ class UserModel {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-      user: User.fromJson(json["user"]),
-      accessToken: json["accessToken"],
-      refreshToken: json["refreshToken"]);
+        user: User.fromJson(json["user"]),
+        accessToken: json["accessToken"],
+        refreshToken: json["refreshToken"],
+      );
 
   Map<String, dynamic> toJson() => {
         "user": user.toJson(),
@@ -48,7 +49,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["_id"],
-        userName: json["user_name"],
+        userName: json["username"],
         password: json["password"],
         name: json["name"],
         role: json["role"],
@@ -56,7 +57,7 @@ class User {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "user_name": userName,
+        "username": userName,
         "password": password,
         "name": name,
         "role": role,
